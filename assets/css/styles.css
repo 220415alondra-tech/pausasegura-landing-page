@@ -1,0 +1,212 @@
+/* Design tokens from the PausaSegura Style Guide (Figma) */
+:root {
+  --color-petroleum-blue: #0b4a5a;
+  --color-turquoise: #16808f;
+  --color-mint: #ddf1f2;
+  --color-risk-low: #2e7d32;
+  --color-risk-medium: #ffb300;
+  --color-risk-high: #c62828;
+  --color-text: #1b2327;
+  --color-background: #f4f8f9;
+  --color-surface: #ffffff;
+
+  --font-heading: "Nunito", sans-serif;
+  --font-body: "Atkinson Hyperlegible", sans-serif;
+
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --touch-target: 48px;
+  --container-max-width: 1200px;
+}
+
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-petroleum-blue);
+  font-family: var(--font-heading);
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+h2 {
+  font-size: 1.375rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-turquoise);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: var(--space-16);
+  padding: var(--space-8) var(--space-16);
+  background-color: var(--color-surface);
+}
+
+.skip-link:focus {
+  top: var(--space-8);
+}
+
+/* Layout */
+.section {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-48) var(--space-16);
+}
+
+/* Navbar (mobile first) */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-16);
+}
+
+.navbar__logo {
+  color: var(--color-petroleum-blue);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.navbar__toggle {
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.navbar__toggle-bar,
+.navbar__toggle-bar::before,
+.navbar__toggle-bar::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin: 0 auto;
+  background-color: var(--color-text);
+  content: "";
+}
+
+.navbar__toggle-bar::before {
+  transform: translateY(-7px);
+}
+
+.navbar__toggle-bar::after {
+  transform: translateY(5px);
+}
+
+.navbar__menu {
+  display: none;
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar__menu--open {
+  display: block;
+}
+
+.navbar__link {
+  display: block;
+  min-height: var(--touch-target);
+  padding: var(--space-8) 0;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button--primary {
+  background-color: var(--color-petroleum-blue);
+  color: var(--color-surface);
+}
+
+.button--primary:hover {
+  background-color: var(--color-turquoise);
+}
+
+/* Footer */
+.site-footer {
+  padding: var(--space-24) var(--space-16);
+  background-color: var(--color-petroleum-blue);
+  color: var(--color-surface);
+  text-align: center;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 2.125rem;
+  }
+
+  h2 {
+    font-size: 1.625rem;
+  }
+
+  .navbar__toggle {
+    display: none;
+  }
+
+  .navbar__menu {
+    display: flex;
+    flex-basis: auto;
+    align-items: center;
+    gap: var(--space-24);
+  }
+}
