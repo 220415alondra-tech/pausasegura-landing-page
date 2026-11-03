@@ -20,5 +20,6 @@
 - [ ] HTML validated with the W3C Markup Validation Service
 - [ ] CSS validated with the W3C CSS Validation Service
 - [ ] Responsive checked on mobile, tablet and desktop
-- [ ] Images have `alt`; icon-only buttons have `aria-label`
+- [ ] No JavaScript added (HTML and CSS only)
+- [ ] Images have `alt`; icon-only controls have `aria-label`
 - [ ] Visual result matches the Figma Style Guide

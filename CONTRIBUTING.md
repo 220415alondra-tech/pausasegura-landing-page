@@ -86,8 +86,8 @@ HTML Style Guide and Coding Conventions (https://www.w3schools.com/html/html5_sy
 - `<!DOCTYPE html>`, `<html lang="es">`, `<meta charset="UTF-8">` and the viewport meta tag.
 - Lowercase element and attribute names; attribute values in double quotes; 2-space indentation.
 - Semantic elements: `header`, `nav`, `main`, `section`, `article`, `footer`; only one `h1`.
-- Accessibility (a11y): every image has `alt`; icon-only buttons have `aria-label`; the mobile menu uses `aria-expanded` and `aria-controls`.
-- External links use `rel="noopener noreferrer"`. No inline JavaScript (`onclick`).
+- Accessibility (a11y): every image has `alt`; icon-only controls have `aria-label`; the mobile menu works with a keyboard-focusable checkbox and its `label`.
+- External links use `rel="noopener noreferrer"`.
 - File names in lowercase kebab-case: `pausasegura-logo.svg`.
 
 ### CSS
@@ -100,13 +100,10 @@ HTML Style Guide and Coding Conventions (https://www.w3schools.com/html/html5_sy
 - Mobile first: base styles for mobile, then `@media (min-width: 600px)` (tablet) and `@media (min-width: 1024px)` (desktop).
 - Font sizes in `rem`; spacing in multiples of 8 px.
 
-### JavaScript (basic)
+### No JavaScript
 
-Reference: Google JavaScript Style Guide (https://google.github.io/styleguide/jsguide.html).
-
-- `const` and `let` (never `var`); end statements with `;`.
-- `camelCase` for variables and functions, `UPPER_SNAKE_CASE` for constants.
-- Use `addEventListener`; load scripts with `defer`.
+The team decided to build the Landing Page with **HTML and CSS only**. Do not add `<script>` tags or `.js` files.
+Simple interactions are solved with HTML and CSS: `:checked` (checkbox or radio + `label`), `:target` (anchors) and `<details>`/`<summary>`.
 
 ### Gherkin
 
