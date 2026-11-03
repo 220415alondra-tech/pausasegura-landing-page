@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@600;700;800&display=swap">
   <link rel="stylesheet" href="assets/css/styles.css">
-  <script src="assets/js/main.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Saltar al contenido</a>
@@ -17,9 +16,10 @@
   <header class="site-header">
     <nav class="navbar" aria-label="Navegación principal">
       <a class="navbar__logo" href="#home">PausaSegura</a>
-      <button class="navbar__toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
-        <span class="navbar__toggle-bar" aria-hidden="true"></span>
-      </button>
+      <input class="navbar__toggle" type="checkbox" id="menu-toggle" aria-label="Abrir o cerrar menú">
+      <label class="navbar__toggle-label" for="menu-toggle" aria-hidden="true">
+        <span class="navbar__toggle-bar"></span>
+      </label>
       <ul class="navbar__menu" id="nav-menu">
         <li><a class="navbar__link" href="#home">Inicio</a></li>
         <li><a class="navbar__link" href="#how-it-works">Cómo funciona</a></li>
