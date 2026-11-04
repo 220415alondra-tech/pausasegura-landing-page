@@ -69,8 +69,8 @@
         <span class="brand__name">PausaSegura</span>
       </a>
       <input class="navbar__toggle" type="checkbox" id="menu-toggle" aria-label="Abrir o cerrar menú">
-      <label class="navbar__toggle-label" for="menu-toggle" aria-hidden="true">
-        <span class="navbar__toggle-bar"></span>
+      <label class="navbar__toggle-label" for="menu-toggle">
+        <span class="navbar__toggle-bar" aria-hidden="true"></span>
       </label>
       <ul class="navbar__menu" id="nav-menu">
         <li><a class="navbar__link" href="#home">Inicio</a></li>
@@ -254,8 +254,8 @@
 
           <!-- Q1 channel (US06) -->
           <fieldset class="evaluation__step" id="q1">
-            <div class="evaluation__progress"><span>Pregunta 1 de 8</span><span class="progress" style="--progress: 12.5%"></span></div>
             <legend class="evaluation__question">¿Por dónde te contactaron?</legend>
+            <div class="evaluation__progress"><span>Pregunta 1 de 8</span><span class="progress" style="--progress: 12.5%"></span></div>
             <p class="evaluation__example">Ejemplo: “Me llegó un SMS de un número que no conozco”.</p>
             <div class="options">
               <label class="option"><input type="radio" name="channel" id="ch-call"> Llamada</label>
@@ -273,8 +273,8 @@
 
           <!-- Q2 sender (US07) -->
           <fieldset class="evaluation__step" id="q2">
-            <div class="evaluation__progress"><span>Pregunta 2 de 8</span><span class="progress" style="--progress: 25%"></span></div>
             <legend class="evaluation__question">¿Quién dice ser?</legend>
+            <div class="evaluation__progress"><span>Pregunta 2 de 8</span><span class="progress" style="--progress: 25%"></span></div>
             <p class="evaluation__example">Ejemplo: “Dice ser de mi banco” o “Dice ser mi sobrino con un número nuevo”.</p>
             <div class="options">
               <label class="option"><input type="radio" name="sender" id="snd-bank"> Un banco</label>
@@ -293,8 +293,8 @@
 
           <!-- Q3 what they ask, multiple (US08) -->
           <fieldset class="evaluation__step" id="q3">
-            <div class="evaluation__progress"><span>Pregunta 3 de 8</span><span class="progress" style="--progress: 37.5%"></span></div>
             <legend class="evaluation__question">¿Qué te piden? <span class="evaluation__hint">Puedes marcar varias opciones.</span></legend>
+            <div class="evaluation__progress"><span>Pregunta 3 de 8</span><span class="progress" style="--progress: 37.5%"></span></div>
             <p class="evaluation__example">Ejemplo: “Me piden mi DNI y que haga clic en un enlace”.</p>
             <div class="options">
               <label class="option"><input type="checkbox" id="ask-data" class="flag-medium"> Datos personales (DNI, dirección)</label>
@@ -313,8 +313,8 @@
 
           <!-- Q4 urgency (US13) -->
           <fieldset class="evaluation__step" id="q4">
-            <div class="evaluation__progress"><span>Pregunta 4 de 8</span><span class="progress" style="--progress: 50%"></span></div>
             <legend class="evaluation__question">¿Te presionan para actuar rápido?</legend>
+            <div class="evaluation__progress"><span>Pregunta 4 de 8</span><span class="progress" style="--progress: 50%"></span></div>
             <p class="evaluation__example">Ejemplo: “Si no respondes en 10 minutos, tu cuenta se bloqueará”.</p>
             <div class="options">
               <label class="option"><input type="radio" name="urgency" id="urg-yes" class="flag-medium"> Sí</label>
@@ -330,8 +330,8 @@
 
           <!-- Q5 codes (US14) -->
           <fieldset class="evaluation__step" id="q5">
-            <div class="evaluation__progress"><span>Pregunta 5 de 8</span><span class="progress" style="--progress: 62.5%"></span></div>
             <legend class="evaluation__question">¿Te piden una clave o un código?</legend>
+            <div class="evaluation__progress"><span>Pregunta 5 de 8</span><span class="progress" style="--progress: 62.5%"></span></div>
             <p class="evaluation__example">Ejemplo: “Dime el código que te llegó por SMS”.</p>
             <div class="options">
               <label class="option"><input type="radio" name="code" id="code-yes" class="flag-high"> Sí, me piden un código o clave</label>
@@ -351,8 +351,8 @@
 
           <!-- Q6 change of channel / suspicious link (US15, US16) -->
           <fieldset class="evaluation__step" id="q6">
-            <div class="evaluation__progress"><span>Pregunta 6 de 8</span><span class="progress" style="--progress: 75%"></span></div>
             <legend class="evaluation__question">¿Te piden seguir la conversación en otro lado o abrir un enlace?</legend>
+            <div class="evaluation__progress"><span>Pregunta 6 de 8</span><span class="progress" style="--progress: 75%"></span></div>
             <p class="evaluation__example">Ejemplo: “Escríbeme a este WhatsApp” o un enlace como bcp-seguro.pe-validacion.com.</p>
             <div class="options">
               <label class="option"><input type="radio" name="channel-change" id="cc-whatsapp" class="flag-medium"> Sí, que siga por otro chat o número</label>
@@ -369,8 +369,8 @@
 
           <!-- Q7 impersonation (US17) -->
           <fieldset class="evaluation__step" id="q7">
-            <div class="evaluation__progress"><span>Pregunta 7 de 8</span><span class="progress" style="--progress: 87.5%"></span></div>
             <legend class="evaluation__question">¿Algo no coincide con quien dice ser?</legend>
+            <div class="evaluation__progress"><span>Pregunta 7 de 8</span><span class="progress" style="--progress: 87.5%"></span></div>
             <p class="evaluation__example">Ejemplo: el número no es el oficial, hay errores de ortografía o te tutea alguien que nunca lo hace.</p>
             <div class="options">
               <label class="option"><input type="radio" name="mismatch" id="mm-yes" class="flag-medium"> Sí, algo no coincide</label>
@@ -386,8 +386,8 @@
 
           <!-- Q8 offers, prizes, advance payment (US18, US19, US20) -->
           <fieldset class="evaluation__step" id="q8">
-            <div class="evaluation__progress"><span>Pregunta 8 de 8</span><span class="progress" style="--progress: 100%"></span></div>
             <legend class="evaluation__question">¿Te ofrecen algo o te piden pagar por adelantado?</legend>
+            <div class="evaluation__progress"><span>Pregunta 8 de 8</span><span class="progress" style="--progress: 100%"></span></div>
             <p class="evaluation__example">Ejemplo: “Ganaste un sorteo”, “Trabajo desde casa, solo paga la inscripción” o “Deposita primero para separar el pedido”.</p>
             <div class="options">
               <label class="option"><input type="radio" name="offer" id="of-prize" class="flag-medium"> Un premio, sorteo o herencia</label>
