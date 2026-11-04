@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PausaSegura te ayuda a hacer una pausa y evaluar una llamada o mensaje sospechoso antes de responder.">
+  <title>PausaSegura | Detente. Verifica. Decide.</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <!-- Icon sprite (decorative icons, reused with <use>) -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5h.01"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5-10-6.5z"/></symbol>
+    <symbol id="icon-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7"/><path d="M12 13.5l3-3"/><path d="M10 3h4"/></symbol>
+    <symbol id="icon-key" viewBox="0 0 24 24"><circle cx="15" cy="9" r="4.5"/><path d="M11.8 12.2L4 20"/><path d="M6.5 17.5l2 2"/><path d="M8.5 15.5l1.5 1.5"/></symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 17.5h2"/></symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5"/><path d="M15.5 4.8a3.5 3.5 0 0 1 0 6.4"/><path d="M18 14.8c2 .8 3.2 2.6 3.5 5.2"/></symbol>
+    <symbol id="icon-store" viewBox="0 0 24 24"><path d="M4 9.5L5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 11.5V20h13v-8.5"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.5 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/></symbol>
+    <symbol id="icon-chat" viewBox="0 0 24 24"><path d="M4 5h11v8H8l-4 3V5z"/><path d="M15 9h5v10l-3.5-2.5H10V13"/></symbol>
+    <symbol id="icon-warning" viewBox="0 0 24 24"><path d="M12 4l9 16H3l9-16z"/><path d="M12 10v4.5"/><path d="M12 17.5h.01"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></symbol>
+    <symbol id="icon-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="17.5" cy="6" r="2.5"/><circle cx="17.5" cy="18" r="2.5"/><path d="M8.2 10.8l7-3.6"/><path d="M8.2 13.2l7 3.6"/></symbol>
+    <symbol id="icon-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5"/></symbol>
+    <symbol id="icon-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5.5h4V20"/></symbol>
+    <symbol id="icon-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/><path d="M12 8v4.5l3 2"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c.7-4 3.7-6 7.5-6s6.8 2 7.5 6"/></symbol>
+    <symbol id="icon-text-size" viewBox="0 0 24 24"><path d="M3 18L8 6l5 12"/><path d="M4.8 14h6.4"/><path d="M14 18l3.5-8.5L21 18"/><path d="M15.2 15.2h4.6"/></symbol>
+    <symbol id="icon-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></symbol>
+  </svg>
+
+  <!-- US36: reading preferences (CSS only: :has(:checked)) -->
+  <input class="a11y-control" type="checkbox" id="large-text">
+  <input class="a11y-control" type="checkbox" id="high-contrast">
+
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="a11y-bar" role="group" aria-label="Preferencias de lectura">
+      <div class="container a11y-bar__inner">
+        <span class="a11y-bar__title">Lectura cómoda:</span>
+        <label class="a11y-bar__option" for="large-text">
+          <svg class="icon" aria-hidden="true"><use href="#icon-text-size"/></svg>
+          Letra grande
+        </label>
+        <label class="a11y-bar__option" for="high-contrast">
+          <svg class="icon" aria-hidden="true"><use href="#icon-contrast"/></svg>
+          Alto contraste
+        </label>
+      </div>
+    </div>
+
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="#home" aria-label="PausaSegura, ir al inicio">
+        <span class="brand__mark" aria-hidden="true"><svg class="icon"><use href="#icon-shield"/></svg></span>
+        <span class="brand__name">PausaSegura</span>
+      </a>
+      <input class="navbar__toggle" type="checkbox" id="menu-toggle" aria-label="Abrir o cerrar menú">
+      <label class="navbar__toggle-label" for="menu-toggle">
+        <span class="navbar__toggle-bar" aria-hidden="true"></span>
+      </label>
+      <ul class="navbar__menu" id="nav-menu">
+        <li><a class="navbar__link" href="#home">Inicio</a></li>
+        <li><a class="navbar__link" href="#how-it-works">Cómo funciona</a></li>
+        <li><a class="navbar__link" href="#segments">Para quién</a></li>
+        <li><a class="navbar__link" href="#plans">Planes</a></li>
+        <li><a class="navbar__link" href="#faq">Preguntas</a></li>
+        <li><a class="navbar__link navbar__link--accent" href="#evaluate">Haz una pausa</a></li>
+        <li class="navbar__cta"><a class="button button--primary" href="#download">Descargar app</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="hero" id="home" aria-labelledby="home-title">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="eyebrow eyebrow--icon">
+            <svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg>
+            Tu seguridad empieza con una pausa
+          </p>
+          <h1 class="hero__title" id="home-title">Detente.<br>Verifica.<br>Decide.</h1>
+          <p class="hero__lead">Evita fraudes y estafas en segundos evaluando mensajes o llamadas sospechosas antes de responder.</p>
+          <div class="hero__actions">
+            <a class="button button--primary button--large" href="#download">
+              <svg class="icon" aria-hidden="true"><use href="#icon-download"/></svg>
+              Descargar app
+            </a>
+            <a class="button button--outline button--large" href="#evaluate">
+              <svg class="icon" aria-hidden="true"><use href="#icon-play"/></svg>
+              Probar una pausa
+            </a>
+          </div>
+          <p class="hero__note">Empieza con el plan Gratis. Decide sin presión.</p>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <div class="phone">
+            <div class="phone__status"><span>9:41</span><span class="phone__notch"></span><span class="phone__battery"></span></div>
+            <div class="phone__screen">
+              <p class="phone__brand"><svg class="icon"><use href="#icon-shield"/></svg> PausaSegura</p>
+              <p class="phone__title">Una pausa puede cambiarlo todo.</p>
+              <p class="phone__text">¿Algo te parece sospechoso? Revisémoslo con calma.</p>
+              <div class="phone__card">
+                <span class="icon-badge"><svg class="icon"><use href="#icon-pause"/></svg></span>
+                <p class="phone__card-title">¿Qué quieres evaluar?</p>
+                <span class="phone__option">Un mensaje <svg class="icon"><use href="#icon-chevron"/></svg></span>
+                <span class="phone__option">Una llamada <svg class="icon"><use href="#icon-chevron"/></svg></span>
+              </div>
+              <p class="phone__tip"><svg class="icon"><use href="#icon-lock"/></svg> Nunca compartas tus claves ni códigos de verificación.</p>
+            </div>
+            <div class="phone__nav">
+              <svg class="icon"><use href="#icon-home"/></svg>
+              <svg class="icon"><use href="#icon-history"/></svg>
+              <svg class="icon"><use href="#icon-user"/></svg>
+            </div>
+          </div>
+          <p class="floating-chip floating-chip--top">Con calma, contigo</p>
+          <div class="floating-chip floating-chip--bottom">
+            <span class="icon-badge icon-badge--small"><svg class="icon"><use href="#icon-pause"/></svg></span>
+            <span><strong>No te apresures.</strong><br>Primero, verifica.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section" id="how-it-works" aria-labelledby="how-it-works-title">
+      <div class="container">
+        <header class="section-header section-header--center">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 class="section-title" id="how-it-works-title">Tres pasos. Una decisión más tranquila.</h2>
+          <p class="section-lead">Antes de responder, enviar dinero o compartir información, tómate un momento.</p>
+        </header>
+        <ol class="steps-grid">
+          <li class="step-card">
+            <div class="step-card__top"><span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-pause"/></svg></span><span class="step-card__number">01</span></div>
+            <h3 class="step-card__title">Haz una pausa</h3>
+            <p>Responde preguntas simples.</p>
+          </li>
+          <li class="step-card">
+            <div class="step-card__top"><span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-alert"/></svg></span><span class="step-card__number">02</span></div>
+            <h3 class="step-card__title">Conoce el riesgo</h3>
+            <p>Recibe un nivel bajo, medio o alto.</p>
+          </li>
+          <li class="step-card">
+            <div class="step-card__top"><span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span><span class="step-card__number">03</span></div>
+            <h3 class="step-card__title">Actúa seguro</h3>
+            <p>Sigue recomendaciones claras.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Signals (US13, US14, US16) -->
+    <section class="section section--soft" id="signals" aria-labelledby="signals-title">
+      <div class="container">
+        <header class="section-header">
+          <p class="eyebrow">Reconoce las señales</p>
+          <h2 class="section-title" id="signals-title">Si te presionan, haz una pausa.</h2>
+          <p class="section-lead">No necesitas ser experto en tecnología para prestar atención a estas señales.</p>
+        </header>
+        <ul class="signals-grid">
+          <li class="signal-item">
+            <svg class="icon icon--large" aria-hidden="true"><use href="#icon-timer"/></svg>
+            <h3 class="signal-item__title">Te piden actuar ya</h3>
+            <p>“Hazlo ahora o perderás tu cuenta”. La urgencia es una señal para detenerte.</p>
+          </li>
+          <li class="signal-item">
+            <svg class="icon icon--large" aria-hidden="true"><use href="#icon-key"/></svg>
+            <h3 class="signal-item__title">Quieren tus códigos</h3>
+            <p>Una contraseña o código de verificación no se comparte, aunque parezca una solicitud oficial.</p>
+          </li>
+          <li class="signal-item">
+            <svg class="icon icon--large" aria-hidden="true"><use href="#icon-link"/></svg>
+            <h3 class="signal-item__title">Algo no coincide</h3>
+            <p>Un enlace extraño, un remitente desconocido o un pago inesperado merecen una segunda revisión.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Inside PausaSegura (US21, US22, US24) -->
+    <section class="section" id="inside" aria-labelledby="inside-title">
+      <div class="container split">
+        <div class="split__content">
+          <p class="eyebrow">Dentro de PausaSegura</p>
+          <h2 class="section-title" id="inside-title">Del “¿y si es real?” a un siguiente paso claro.</h2>
+          <p class="section-lead">Responde sobre lo que recibiste. El nivel de riesgo te ayuda a reconocer señales y a elegir qué hacer después.</p>
+          <ul class="risk-legend" aria-label="Niveles de riesgo">
+            <li class="risk-pill risk-pill--low">Bajo</li>
+            <li class="risk-pill risk-pill--medium">Medio</li>
+            <li class="risk-pill risk-pill--high">Alto</li>
+          </ul>
+          <p class="small-note">Es una orientación, no una garantía de seguridad. Verifica siempre por un canal oficial.</p>
+          <a class="button button--primary" href="#evaluate">Pruébalo con un ejemplo</a>
+        </div>
+        <figure class="example-card">
+          <figcaption class="example-card__header">
+            Así podría verse una evaluación
+            <svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg>
+          </figcaption>
+          <blockquote class="example-card__message">
+            <p class="example-card__label">Mensaje recibido · Ejemplo ficticio</p>
+            <p>“Tu cuenta será bloqueada. Ingresa al enlace y envía tu código para activarla.”</p>
+          </blockquote>
+          <div class="example-card__risk">
+            <span class="icon-badge icon-badge--danger"><svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg></span>
+            <p><strong class="text-danger">Riesgo alto</strong><br>Urgencia + solicitud de un código</p>
+          </div>
+          <p class="example-card__tip">
+            <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>
+            No abras el enlace ni compartas el código. Contacta a la entidad desde su app o sitio oficial.
+          </p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Guided evaluation demo (US05-US32, US39, US41, US48). CSS only: :target + :has(:checked) -->
+    <section class="section section--tinted" id="evaluate" aria-labelledby="evaluate-title">
+      <div class="container">
+        <header class="section-header section-header--center">
+          <p class="eyebrow">Haz una pausa ahora</p>
+          <h2 class="section-title" id="evaluate-title">Evalúa un mensaje o llamada de ejemplo.</h2>
+          <p class="section-lead">Esta es una simulación de la app: responde con calma y mira qué nivel de riesgo obtendrías. No se guarda ni se envía nada.</p>
+        </header>
+
+        <form class="evaluation" aria-label="Evaluación guiada de ejemplo">
+          <!-- Start (US05) -->
+          <div class="evaluation__step evaluation__step--start" id="eval-start">
+            <span class="pause-button" aria-hidden="true"><svg class="icon"><use href="#icon-pause"/></svg></span>
+            <h3 class="evaluation__title">¿Recibiste algo sospechoso?</h3>
+            <p>Toca “Pausa” y responde 8 preguntas sencillas, una por pantalla.</p>
+            <a class="button button--primary button--large" href="#q1">
+              <svg class="icon" aria-hidden="true"><use href="#icon-pause"/></svg>
+              Pausa
+            </a>
+            <button class="button button--ghost" type="reset">Borrar respuestas anteriores</button>
+          </div>
+
+          <!-- Q1 channel (US06) -->
+          <fieldset class="evaluation__step" id="q1">
+            <legend class="evaluation__question">¿Por dónde te contactaron?</legend>
+            <div class="evaluation__progress"><span>Pregunta 1 de 8</span><span class="progress" style="--progress: 12.5%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Me llegó un SMS de un número que no conozco”.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="channel" id="ch-call"> Llamada</label>
+              <label class="option"><input type="radio" name="channel" id="ch-sms"> SMS</label>
+              <label class="option"><input type="radio" name="channel" id="ch-whatsapp"> WhatsApp</label>
+              <label class="option"><input type="radio" name="channel" id="ch-email"> Correo</label>
+              <label class="option"><input type="radio" name="channel" id="ch-social"> Red social</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#eval-start"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q2">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q2 sender (US07) -->
+          <fieldset class="evaluation__step" id="q2">
+            <legend class="evaluation__question">¿Quién dice ser?</legend>
+            <div class="evaluation__progress"><span>Pregunta 2 de 8</span><span class="progress" style="--progress: 25%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Dice ser de mi banco” o “Dice ser mi sobrino con un número nuevo”.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="sender" id="snd-bank"> Un banco</label>
+              <label class="option"><input type="radio" name="sender" id="snd-company"> Una empresa o tienda</label>
+              <label class="option"><input type="radio" name="sender" id="snd-public"> Una entidad pública</label>
+              <label class="option"><input type="radio" name="sender" id="snd-family"> Un familiar o amigo</label>
+              <label class="option"><input type="radio" name="sender" id="snd-client"> Un cliente o contacto nuevo</label>
+              <label class="option option--unsure"><input type="radio" name="sender" id="snd-unsure"> No sé</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q1"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q3">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q3 what they ask, multiple (US08) -->
+          <fieldset class="evaluation__step" id="q3">
+            <legend class="evaluation__question">¿Qué te piden? <span class="evaluation__hint">Puedes marcar varias opciones.</span></legend>
+            <div class="evaluation__progress"><span>Pregunta 3 de 8</span><span class="progress" style="--progress: 37.5%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Me piden mi DNI y que haga clic en un enlace”.</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" id="ask-data" class="flag-medium"> Datos personales (DNI, dirección)</label>
+              <label class="option"><input type="checkbox" id="ask-bank" class="flag-high"> Datos de mi tarjeta o cuenta bancaria</label>
+              <label class="option"><input type="checkbox" id="ask-money" class="flag-medium"> Dinero o un pago</label>
+              <label class="option"><input type="checkbox" id="ask-click" class="flag-medium"> Hacer clic en un enlace</label>
+              <label class="option"><input type="checkbox" id="ask-install" class="flag-high"> Instalar una aplicación</label>
+              <label class="option"><input type="checkbox" id="ask-nothing"> Nada de esto</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q2"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q4">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q4 urgency (US13) -->
+          <fieldset class="evaluation__step" id="q4">
+            <legend class="evaluation__question">¿Te presionan para actuar rápido?</legend>
+            <div class="evaluation__progress"><span>Pregunta 4 de 8</span><span class="progress" style="--progress: 50%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Si no respondes en 10 minutos, tu cuenta se bloqueará”.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="urgency" id="urg-yes" class="flag-medium"> Sí</label>
+              <label class="option"><input type="radio" name="urgency" id="urg-no"> No</label>
+              <label class="option option--unsure"><input type="radio" name="urgency" id="urg-unsure"> No sé</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q3"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q5">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q5 codes (US14) -->
+          <fieldset class="evaluation__step" id="q5">
+            <legend class="evaluation__question">¿Te piden una clave o un código?</legend>
+            <div class="evaluation__progress"><span>Pregunta 5 de 8</span><span class="progress" style="--progress: 62.5%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Dime el código que te llegó por SMS”.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="code" id="code-yes" class="flag-high"> Sí, me piden un código o clave</label>
+              <label class="option"><input type="radio" name="code" id="code-no"> No</label>
+              <label class="option option--unsure"><input type="radio" name="code" id="code-unsure" class="flag-medium"> No sé</label>
+            </div>
+            <p class="evaluation__warning">
+              <svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg>
+              Nunca compartas ese código, ni siquiera con alguien que dice ser de tu banco.
+            </p>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q4"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q6">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q6 change of channel / suspicious link (US15, US16) -->
+          <fieldset class="evaluation__step" id="q6">
+            <legend class="evaluation__question">¿Te piden seguir la conversación en otro lado o abrir un enlace?</legend>
+            <div class="evaluation__progress"><span>Pregunta 6 de 8</span><span class="progress" style="--progress: 75%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Escríbeme a este WhatsApp” o un enlace como bcp-seguro.pe-validacion.com.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="channel-change" id="cc-whatsapp" class="flag-medium"> Sí, que siga por otro chat o número</label>
+              <label class="option"><input type="radio" name="channel-change" id="cc-link" class="flag-medium"> Sí, que abra un enlace</label>
+              <label class="option"><input type="radio" name="channel-change" id="cc-no"> No</label>
+              <label class="option option--unsure"><input type="radio" name="channel-change" id="cc-unsure"> No sé</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q5"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q7">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q7 impersonation (US17) -->
+          <fieldset class="evaluation__step" id="q7">
+            <legend class="evaluation__question">¿Algo no coincide con quien dice ser?</legend>
+            <div class="evaluation__progress"><span>Pregunta 7 de 8</span><span class="progress" style="--progress: 87.5%"></span></div>
+            <p class="evaluation__example">Ejemplo: el número no es el oficial, hay errores de ortografía o te tutea alguien que nunca lo hace.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="mismatch" id="mm-yes" class="flag-medium"> Sí, algo no coincide</label>
+              <label class="option"><input type="radio" name="mismatch" id="mm-no"> No, todo coincide</label>
+              <label class="option option--unsure"><input type="radio" name="mismatch" id="mm-unsure"> No sé</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q6"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#q8">Siguiente</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Q8 offers, prizes, advance payment (US18, US19, US20) -->
+          <fieldset class="evaluation__step" id="q8">
+            <legend class="evaluation__question">¿Te ofrecen algo o te piden pagar por adelantado?</legend>
+            <div class="evaluation__progress"><span>Pregunta 8 de 8</span><span class="progress" style="--progress: 100%"></span></div>
+            <p class="evaluation__example">Ejemplo: “Ganaste un sorteo”, “Trabajo desde casa, solo paga la inscripción” o “Deposita primero para separar el pedido”.</p>
+            <div class="options">
+              <label class="option"><input type="radio" name="offer" id="of-prize" class="flag-medium"> Un premio, sorteo o herencia</label>
+              <label class="option"><input type="radio" name="offer" id="of-job" class="flag-medium"> Un trabajo o beca a cambio de un pago</label>
+              <label class="option"><input type="radio" name="offer" id="of-advance" class="flag-high"> Un pago adelantado o depósito</label>
+              <label class="option"><input type="radio" name="offer" id="of-none"> Nada de esto</label>
+              <label class="option option--unsure"><input type="radio" name="offer" id="of-unsure"> No sé</label>
+            </div>
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q7"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Atrás</a>
+              <a class="button button--primary" href="#eval-result">Ver resultado</a>
+            </div>
+            <a class="evaluation__cancel" href="#eval-cancel">Cancelar evaluación</a>
+          </fieldset>
+
+          <!-- Cancel confirmation (US12) -->
+          <div class="evaluation__step evaluation__step--dialog" id="eval-cancel" role="alertdialog" aria-labelledby="cancel-title">
+            <svg class="icon icon--large" aria-hidden="true"><use href="#icon-alert"/></svg>
+            <h3 class="evaluation__title" id="cancel-title">¿Salir de la evaluación?</h3>
+            <p>Tus respuestas no se guardarán. Puedes volver a empezar cuando quieras.</p>
+            <div class="evaluation__nav">
+              <a class="button button--outline" href="#q1">Seguir evaluando</a>
+              <button class="button button--danger" type="reset">Borrar respuestas</button>
+              <a class="button button--ghost" href="#eval-start">Salir</a>
+            </div>
+          </div>
+
+          <!-- Result (US21-US32, US39, US48) -->
+          <div class="evaluation__step evaluation__step--result" id="eval-result" aria-live="polite">
+            <p class="evaluation__progress"><span>Resultado de la evaluación</span></p>
+
+            <!-- US21, US22, US25: one of the three levels is shown -->
+            <div class="result result--high">
+              <div class="result__header" role="alert">
+                <span class="result__icon"><svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg></span>
+                <div>
+                  <p class="result__level">Riesgo alto</p>
+                  <p class="result__summary">No respondas, no abras enlaces y no compartas nada.</p>
+                </div>
+              </div>
+              <p class="result__explanation">Encontramos señales que suelen usarse en fraudes: te piden datos bancarios, un código, instalar algo o pagar por adelantado. Una entidad real nunca te pedirá eso por mensaje o llamada.</p>
+              <h4 class="result__subtitle">Qué hacer ahora</h4>
+              <ol class="result__steps">
+                <li>No compartas claves, códigos ni datos de tu tarjeta.</li>
+                <li>Corta la comunicación y no abras el enlace que te enviaron.</li>
+                <li>Contacta a la entidad por su canal oficial: su app, su web o el número del reverso de tu tarjeta.</li>
+              </ol>
+            </div>
+
+            <div class="result result--medium">
+              <div class="result__header">
+                <span class="result__icon"><svg class="icon" aria-hidden="true"><use href="#icon-alert"/></svg></span>
+                <div>
+                  <p class="result__level">Riesgo medio</p>
+                  <p class="result__summary">Verifica antes de actuar.</p>
+                </div>
+              </div>
+              <p class="result__explanation">Hay algunas señales que merecen atención, como presión para actuar, un enlace o datos que no coinciden. Puede ser real, pero conviene confirmarlo por otro medio.</p>
+              <h4 class="result__subtitle">Qué hacer ahora</h4>
+              <ol class="result__steps">
+                <li>No envíes dinero ni datos hasta confirmar quién es.</li>
+                <li>Verifica por un canal oficial o llamando tú al número de siempre.</li>
+                <li>Si tienes dudas, pregunta a alguien de confianza.</li>
+              </ol>
+            </div>
+
+            <div class="result result--low">
+              <div class="result__header">
+                <span class="result__icon"><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg></span>
+                <div>
+                  <p class="result__level">Riesgo bajo</p>
+                  <p class="result__summary">Continúa con cautela.</p>
+                </div>
+              </div>
+              <p class="result__explanation">No encontramos señales claras de fraude en tus respuestas. Aun así, mantente atento si la conversación cambia o te piden algo más adelante.</p>
+              <h4 class="result__subtitle">Qué hacer ahora</h4>
+              <ol class="result__steps">
+                <li>Continúa con cautela y no compartas claves ni códigos.</li>
+                <li>Si te piden un pago o datos más adelante, vuelve a hacer una pausa.</li>
+              </ol>
+            </div>
+
+            <!-- US23: signals detected -->
+            <div class="result__block">
+              <h4 class="result__subtitle">Señales detectadas</h4>
+              <ul class="signal-list">
+                <li class="signal-tag signal-tag--urgency">Urgencia o presión</li>
+                <li class="signal-tag signal-tag--code">Piden una clave o código</li>
+                <li class="signal-tag signal-tag--bank">Piden datos bancarios</li>
+                <li class="signal-tag signal-tag--data">Piden datos personales</li>
+                <li class="signal-tag signal-tag--money">Piden dinero</li>
+                <li class="signal-tag signal-tag--install">Piden instalar una app</li>
+                <li class="signal-tag signal-tag--channel">Cambio de canal</li>
+                <li class="signal-tag signal-tag--link">Enlace sospechoso</li>
+                <li class="signal-tag signal-tag--mismatch">Posible suplantación</li>
+                <li class="signal-tag signal-tag--prize">Premio inesperado</li>
+                <li class="signal-tag signal-tag--job">Oferta con pago previo</li>
+                <li class="signal-tag signal-tag--advance">Pago adelantado</li>
+                <li class="signal-tag signal-tag--none">Sin señales claras</li>
+              </ul>
+            </div>
+
+            <!-- US06, US07, US27, US30: tips adapted to the channel and sender -->
+            <div class="result__block result__tips">
+              <h4 class="result__subtitle">Consejos para tu caso</h4>
+              <p class="tip tip--call">Si fue una llamada, cuelga y llama tú al número oficial. No confíes en el número que aparece en pantalla.</p>
+              <p class="tip tip--message">Si fue un mensaje, no respondas desde el mismo chat. Busca el contacto oficial por tu cuenta.</p>
+              <p class="tip tip--bank">Tu banco nunca te pedirá claves ni códigos. Llama al número del reverso de tu tarjeta.</p>
+              <p class="tip tip--family">Si dice ser un familiar, llámalo a su número de siempre o hazle una pregunta que solo él sepa.</p>
+              <div class="tip tip--client">
+                <p>Si es un cliente o contacto nuevo, antes de continuar pregúntale:</p>
+                <ul>
+                  <li>¿Quién eres y de qué empresa me escribes?</li>
+                  <li>¿Cómo obtuviste mi número?</li>
+                  <li>¿Qué necesitas exactamente y cómo pagarás?</li>
+                </ul>
+              </div>
+              <p class="tip tip--generic">Ante la duda, confirma por un canal oficial antes de responder.</p>
+            </div>
+
+            <!-- US29, US39: next decision -->
+            <div class="result__block">
+              <h4 class="result__subtitle">¿Qué decides?</h4>
+              <div class="decision">
+                <label class="decision__option"><input type="radio" name="decision" id="dec-block"> <svg class="icon" aria-hidden="true"><use href="#icon-block"/></svg> Bloquear contacto</label>
+                <label class="decision__option"><input type="radio" name="decision" id="dec-mark"> <svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg> Marcar como sospechoso</label>
+                <label class="decision__option"><input type="radio" name="decision" id="dec-info"> <svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg> Pedir más información</label>
+                <label class="decision__option"><input type="radio" name="decision" id="dec-continue"> <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Continuar con cautela</label>
+              </div>
+              <p class="snackbar snackbar--block" role="status">Contacto bloqueado (simulación). En la app también se guardaría en tu historial.</p>
+              <p class="snackbar snackbar--mark" role="status">Guardado en tu historial como sospechoso (simulación).</p>
+              <p class="snackbar snackbar--info" role="status">Buena idea: usa las preguntas sugeridas y no compartas datos mientras tanto.</p>
+              <p class="snackbar snackbar--continue" role="status">De acuerdo. Si te piden un pago o datos, vuelve a hacer una pausa.</p>
+            </div>
+
+            <!-- US31: share with a trusted contact -->
+            <div class="result__block result__share">
+              <h4 class="result__subtitle">No tienes que decidir a solas</h4>
+              <a class="button button--outline" href="https://wa.me/?text=Hice%20una%20pausa%20con%20PausaSegura%20antes%20de%20responder%20un%20mensaje%20sospechoso.%20%C2%BFMe%20ayudas%20a%20revisarlo%3F" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" aria-hidden="true"><use href="#icon-share"/></svg>
+                Compartir con un familiar
+              </a>
+              <a class="button button--ghost" href="mailto:?subject=%C2%BFMe%20ayudas%20a%20revisar%20un%20mensaje%3F&amp;body=Hice%20una%20pausa%20con%20PausaSegura%20antes%20de%20responder.%20%C2%BFLo%20revisamos%20juntos%3F">Enviar por correo</a>
+            </div>
+
+            <!-- US24: orientative result -->
+            <p class="result__disclaimer">
+              <svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg>
+              Este resultado es una orientación, no una garantía. Ante la duda, verifica siempre por un canal oficial.
+            </p>
+
+            <!-- US48: was it useful? -->
+            <div class="result__block feedback">
+              <p class="feedback__question">¿Te fue útil este resultado?</p>
+              <label class="feedback__option"><input type="radio" name="feedback" id="fb-yes"> Sí</label>
+              <label class="feedback__option"><input type="radio" name="feedback" id="fb-no"> No</label>
+              <p class="feedback__thanks" role="status">¡Gracias! Tu opinión nos ayuda a mejorar.</p>
+            </div>
+
+            <div class="evaluation__nav">
+              <a class="button button--ghost" href="#q8"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg> Corregir respuestas</a>
+              <a class="button button--primary" href="#eval-start">Evaluar otra comunicación</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- For whom (US18-US20 segments) -->
+    <section class="section section--soft" id="segments" aria-labelledby="segments-title">
+      <div class="container split split--reverse">
+        <figure class="photo-card">
+          <img src="assets/images/family-checking-phone.jpg" alt="Una mujer joven ayuda a su madre a revisar un mensaje en el celular" width="664" height="512" loading="lazy">
+          <figcaption class="photo-card__caption">
+            <svg class="icon" aria-hidden="true"><use href="#icon-heart"/></svg>
+            Cuidarte también es cuidar a los tuyos.
+          </figcaption>
+        </figure>
+        <div class="split__content">
+          <p class="eyebrow">Para quién</p>
+          <h2 class="section-title" id="segments-title">Para ti. Para quienes te importan.</h2>
+          <ul class="feature-list">
+            <li class="feature-list__item">
+              <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-phone"/></svg></span>
+              <div>
+                <h3 class="feature-list__title">Para tu día a día</h3>
+                <p>Si eres estudiante y recibes mensajes, ofertas de trabajo o becas, o haces compras desde tu celular.</p>
+              </div>
+            </li>
+            <li class="feature-list__item">
+              <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-users"/></svg></span>
+              <div>
+                <h3 class="feature-list__title">Para quienes quieres</h3>
+                <p>Si eres adulto mayor o acompañas a tu familia a reconocer llamadas y premios sospechosos.</p>
+              </div>
+            </li>
+            <li class="feature-list__item">
+              <span class="icon-badge"><svg class="icon" aria-hidden="true"><use href="#icon-store"/></svg></span>
+              <div>
+                <h3 class="feature-list__title">Para tu negocio</h3>
+                <p>Si eres trabajador independiente y coordinas pedidos, cobros o pagos con contactos nuevos.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learn: tips, examples, glossary (US33, US34, US35) -->
+    <section class="section" id="learn" aria-labelledby="learn-title">
+      <div class="container">
+        <header class="section-header section-header--center">
+          <p class="eyebrow">Aprende</p>
+          <h2 class="section-title" id="learn-title">Reconócelo antes de que pase.</h2>
+          <p class="section-lead">Ejemplos reales de fraudes frecuentes en el Perú y palabras explicadas de forma simple.</p>
+        </header>
+        <div class="learn-grid">
+          <article class="learn-card">
+            <h3 class="learn-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg> Ejemplos frecuentes</h3>
+            <details class="disclosure">
+              <summary>“Yape: tu cuenta fue suspendida”</summary>
+              <p>Te piden ingresar a un enlace para “reactivar” tu cuenta y escribir tu código. Ninguna app de pagos te lo pide por mensaje.</p>
+            </details>
+            <details class="disclosure">
+              <summary>“Hola tío, cambié de número”</summary>
+              <p>Alguien se hace pasar por un familiar y pide dinero urgente. Llama a tu familiar a su número de siempre.</p>
+            </details>
+            <details class="disclosure">
+              <summary>“Trabajo desde casa, S/ 200 diarios”</summary>
+              <p>Te piden pagar una “inscripción” o tus datos para un trabajo que no existe. Un empleo real no te cobra por postular.</p>
+            </details>
+            <details class="disclosure">
+              <summary>“Te depositaron de más, devuélvelo”</summary>
+              <p>Te muestran una captura falsa de transferencia. Revisa tu saldo en la app oficial antes de devolver nada.</p>
+            </details>
+          </article>
+          <article class="learn-card">
+            <h3 class="learn-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-shield"/></svg> Consejos para prevenir</h3>
+            <ul class="check-list">
+              <li>No compartas claves ni códigos de verificación con nadie.</li>
+              <li>Revisa el remitente y el enlace antes de tocarlo.</li>
+              <li>Si te apuran, detente: la urgencia es una táctica.</li>
+              <li>Confirma por el canal oficial de la entidad.</li>
+              <li>Activa la verificación en dos pasos en tus cuentas.</li>
+            </ul>
+          </article>
+          <article class="learn-card">
+            <h3 class="learn-card__title"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg> Glosario simple</h3>
+            <dl class="glossary">
+              <div class="glossary__item"><dt>Phishing</dt><dd>Mensaje falso que imita a una empresa para que entregues tus datos.</dd></div>
+              <div class="glossary__item"><dt>Suplantación</dt><dd>Cuando alguien finge ser otra persona o entidad.</dd></div>
+              <div class="glossary__item"><dt>Código de verificación</dt><dd>Número que te llega por SMS para confirmar que eres tú. Es solo para ti.</dd></div>
+              <div class="glossary__item"><dt>Enlace acortado</dt><dd>Dirección web resumida que oculta a dónde te lleva realmente.</dd></div>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Habit banner (US27, US28) -->
+    <section class="section section--compact" aria-labelledby="habit-title">
+      <div class="container">
+        <div class="habit-banner">
+          <div>
+            <p class="eyebrow eyebrow--light">Una buena costumbre</p>
+            <h2 class="habit-banner__title" id="habit-title">La calma también te protege.</h2>
+          </div>
+          <ul class="habit-banner__list">
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> No compartas claves ni códigos.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Verifica por un canal oficial.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Habla con alguien de confianza.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plans (US49, US50) -->
+    <section class="section" id="plans" aria-labelledby="plans-title">
+      <div class="container">
+        <header class="section-header section-header--center">
+          <p class="eyebrow">Planes</p>
+          <h2 class="section-title" id="plans-title">Una pausa a tu medida.</h2>
+          <p class="section-lead">Empieza gratis o elige más espacio para tus evaluaciones.</p>
+        </header>
+        <div class="billing" role="radiogroup" aria-label="Frecuencia de pago">
+          <input type="radio" name="billing" id="billing-monthly" checked>
+          <label for="billing-monthly">Mensual</label>
+          <input type="radio" name="billing" id="billing-yearly">
+          <label for="billing-yearly">Anual <span class="billing__save">Ahorra S/ 20</span></label>
+          <div class="plans-grid">
+            <article class="plan-card">
+              <h3 class="plan-card__name">Gratis</h3>
+              <p class="plan-card__price">S/ 0</p>
+              <p class="plan-card__lead">Una primera pausa, sin costo.</p>
+              <ul class="check-list">
+                <li>Evaluaciones básicas</li>
+                <li>Niveles de riesgo</li>
+                <li>Recomendaciones claras</li>
+              </ul>
+              <a class="button button--outline" href="#download">Empezar gratis</a>
+            </article>
+            <article class="plan-card plan-card--featured">
+              <div class="plan-card__head">
+                <h3 class="plan-card__name">Premium</h3>
+                <span class="badge">Más acompañamiento</span>
+              </div>
+              <p class="plan-card__price plan-card__price--monthly">S/ 5 <span>mensuales</span></p>
+              <p class="plan-card__price plan-card__price--yearly">S/ 40 <span>anuales</span></p>
+              <p class="plan-card__lead">Para hacer de la prevención un hábito.</p>
+              <ul class="check-list">
+                <li><strong>Evaluaciones ilimitadas</strong></li>
+                <li><strong>Historial ampliado</strong></li>
+                <li>Niveles de riesgo y recomendaciones</li>
+                <li>Sin publicidad invasiva</li>
+              </ul>
+              <a class="button button--primary" href="#download">Elegir Premium</a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ (US24, US42) -->
+    <section class="section section--soft" id="faq" aria-labelledby="faq-title">
+      <div class="container split split--faq">
+        <div class="split__content">
+          <p class="eyebrow">Preguntas</p>
+          <h2 class="section-title" id="faq-title">Resolvamos tus dudas, con calma.</h2>
+          <p class="section-lead">Entiende qué hace PausaSegura y cuándo es importante buscar ayuda por otro canal.</p>
+          <svg class="icon icon--xl" aria-hidden="true"><use href="#icon-chat"/></svg>
+        </div>
+        <div class="faq-list">
+          <details class="faq" open>
+            <summary>¿Qué puedo evaluar con PausaSegura?</summary>
+            <p>Mensajes o llamadas que te parezcan sospechosos. Responde preguntas simples para recibir un nivel de riesgo y recomendaciones claras.</p>
+          </details>
+          <details class="faq">
+            <summary>¿Un riesgo bajo significa que es seguro?</summary>
+            <p>No necesariamente. La evaluación es una orientación y no garantiza que un mensaje o una llamada sean auténticos. Confirma la información por un canal oficial.</p>
+          </details>
+          <details class="faq">
+            <summary>¿PausaSegura me pedirá contraseñas o códigos?</summary>
+            <p>Nunca. PausaSegura no te pedirá contraseñas bancarias ni códigos de verificación. Si alguien lo hace en nuestro nombre, es un intento de fraude.</p>
+          </details>
+          <details class="faq">
+            <summary>¿En qué se diferencian Gratis y Premium?</summary>
+            <p>Gratis incluye evaluaciones básicas. Premium ofrece evaluaciones ilimitadas e historial ampliado por S/ 5 mensuales o S/ 40 al año.</p>
+          </details>
+          <details class="faq">
+            <summary>¿Qué hago si ya compartí datos o envié dinero?</summary>
+            <p>Contacta cuanto antes a tu banco o a la entidad involucrada por un canal oficial. Cambia las claves afectadas y conserva los mensajes o comprobantes para reportar lo ocurrido.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact (US44: only the minimum data, nothing is sent) -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container split">
+        <div class="split__content">
+          <p class="eyebrow">Contacto</p>
+          <h2 class="section-title" id="contact-title">Estamos para escucharte.</h2>
+          <p class="section-lead">Cuéntanos tu duda o sugerencia. Solo te pedimos lo necesario para responderte.</p>
+        </div>
+        <form class="contact-form" action="#contact-sent" method="get">
+          <label class="field">
+            <span class="field__label">Correo electrónico</span>
+            <input class="field__input" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+            <span class="field__error">Escribe un correo válido, por ejemplo nombre@correo.com.</span>
+          </label>
+          <label class="field">
+            <span class="field__label">Mensaje</span>
+            <textarea class="field__input" required minlength="10" rows="4" placeholder="¿En qué te podemos ayudar?"></textarea>
+            <span class="field__error">Escribe al menos 10 caracteres.</span>
+          </label>
+          <p class="small-note"><svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg> Nunca escribas aquí claves, códigos ni datos de tu tarjeta.</p>
+          <button class="button button--primary" type="submit">Enviar mensaje</button>
+          <p class="contact-form__sent" id="contact-sent" role="status">¡Mensaje recibido! Te responderemos pronto. (Simulación: no se guarda ni se envía información.)</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Download CTA -->
+    <section class="cta" id="download" aria-labelledby="download-title">
+      <div class="container cta__inner">
+        <svg class="icon icon--xl" aria-hidden="true"><use href="#icon-shield"/></svg>
+        <h2 class="cta__title" id="download-title">La próxima vez que dudes, haz una pausa.</h2>
+        <p class="section-lead">Ten PausaSegura a mano antes de responder.</p>
+        <div class="cta__stores">
+          <a class="store-button" href="#download-soon"><span class="store-button__small">Disponible en</span> Google Play</a>
+          <a class="store-button" href="#download-soon"><span class="store-button__small">Descárgala en</span> App Store</a>
+        </div>
+        <p class="cta__soon" id="download-soon" role="status">¡Muy pronto! La app está en desarrollo. Mientras tanto, prueba la evaluación de ejemplo.</p>
+        <p class="small-note">Detente. Verifica. Decide.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <a class="brand" href="#home" aria-label="PausaSegura, ir al inicio">
+          <span class="brand__mark" aria-hidden="true"><svg class="icon"><use href="#icon-shield"/></svg></span>
+          <span class="brand__name">PausaSegura</span>
+        </a>
+        <nav aria-label="Enlaces del pie de página">
+          <ul class="site-footer__links">
+            <li><a href="#how-it-works">Cómo funciona</a></li>
+            <li><a href="#segments">Para quién</a></li>
+            <li><a href="#plans">Planes</a></li>
+            <li><a href="#faq">Preguntas</a></li>
+            <li><a href="#privacy">Privacidad</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- US42, US43, US44: privacy policy -->
+      <details class="privacy" id="privacy">
+        <summary>Política de privacidad</summary>
+        <ul>
+          <li>PausaSegura nunca te pedirá contraseñas bancarias ni códigos de verificación.</li>
+          <li>Solo guardamos lo necesario de cada evaluación: el tipo de comunicación, el nivel de riesgo y la fecha.</li>
+          <li>Puedes eliminar tu historial o tu cuenta cuando quieras.</li>
+          <li>Tratamos tus datos según la Ley N.° 29733, Ley de Protección de Datos Personales del Perú.</li>
+        </ul>
+      </details>
+
+      <div class="site-footer__bottom">
+        <p>PausaSegura es una herramienta de orientación. No reemplaza la verificación con tu banco, una entidad oficial ni la denuncia ante las autoridades.<br>&copy; 2026 SeguridadTotal · PausaSegura</p>
+        <p class="site-footer__slogan">Más calma. Mejores decisiones.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

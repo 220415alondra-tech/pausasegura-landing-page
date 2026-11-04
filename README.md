@@ -7,8 +7,7 @@ PausaSegura helps people pause and evaluate a suspicious call or message before 
 
 ## Tech stack
 
-- HTML5 and CSS3 (mandatory base)
-- Basic JavaScript for simple interactions only
+- HTML5 and CSS3 only (no JavaScript)
 - Deployed with GitHub Pages
 
 ## Project structure
@@ -18,7 +17,6 @@ pausasegura-landing-page/
 ├── index.html              # Single page with all landing sections
 ├── assets/
 │   ├── css/styles.css      # Design tokens (from the Figma Style Guide) and styles
-│   ├── js/main.js          # Simple interactions (mobile menu)
 │   └── images/             # Optimized images (WebP / SVG)
 ├── .editorconfig           # Shared editor settings
 ├── .gitignore
