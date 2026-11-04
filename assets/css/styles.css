@@ -105,12 +105,26 @@ button:focus-visible {
   text-decoration: none;
 }
 
+/* Mobile menu without JavaScript: hidden checkbox + label */
 .navbar__toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.navbar__toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: var(--touch-target);
   height: var(--touch-target);
-  border: 0;
-  background: none;
   cursor: pointer;
+}
+
+.navbar__toggle:focus-visible + .navbar__toggle-label {
+  outline: 3px solid var(--color-turquoise);
+  outline-offset: 2px;
 }
 
 .navbar__toggle-bar,
@@ -140,7 +154,7 @@ button:focus-visible {
   list-style: none;
 }
 
-.navbar__menu--open {
+.navbar__toggle:checked ~ .navbar__menu {
   display: block;
 }
 
@@ -199,7 +213,8 @@ button:focus-visible {
     font-size: 1.625rem;
   }
 
-  .navbar__toggle {
+  .navbar__toggle,
+  .navbar__toggle-label {
     display: none;
   }
 
