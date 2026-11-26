@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Revisa el historial de tus evaluaciones en PausaSegura.">
+  <title>Mis resultados | PausaSegura</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/account.js" defer></script>
+  <script src="assets/js/history.js" defer></script>
+</head>
+<body data-requires-auth>
+  <!-- Icon sprite (decorative icons, reused with <use>) -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="icon-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></symbol>
+    <symbol id="icon-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/><path d="M12 8v4.5l3 2"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="icon-text-size" viewBox="0 0 24 24"><path d="M3 18L8 6l5 12"/><path d="M4.8 14h6.4"/><path d="M14 18l3.5-8.5L21 18"/><path d="M15.2 15.2h4.6"/></symbol>
+    <symbol id="icon-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <!-- US36: reading preferences (CSS only: :has(:checked)) -->
+  <input class="a11y-control" type="checkbox" id="large-text">
+  <input class="a11y-control" type="checkbox" id="high-contrast">
+
+  <header class="site-header">
+    <div class="a11y-bar" role="group" aria-label="Preferencias de lectura">
+      <div class="container a11y-bar__inner">
+        <span class="a11y-bar__title">Lectura cómoda:</span>
+        <label class="a11y-bar__option" for="large-text">
+          <svg class="icon" aria-hidden="true"><use href="#icon-text-size"/></svg>
+          Letra grande
+        </label>
+        <label class="a11y-bar__option" for="high-contrast">
+          <svg class="icon" aria-hidden="true"><use href="#icon-contrast"/></svg>
+          Alto contraste
+        </label>
+      </div>
+    </div>
+
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="index.html" aria-label="PausaSegura, ir al inicio">
+        <span class="brand__mark" aria-hidden="true"><svg class="icon"><use href="#icon-shield"/></svg></span>
+        <span class="brand__name">PausaSegura</span>
+      </a>
+      <input class="navbar__toggle" type="checkbox" id="menu-toggle" aria-label="Abrir o cerrar menú">
+      <label class="navbar__toggle-label" for="menu-toggle">
+        <span class="navbar__toggle-bar" aria-hidden="true"></span>
+      </label>
+      <ul class="navbar__menu" id="nav-menu">
+        <li><a class="navbar__link" href="index.html">Inicio</a></li>
+        <li><a class="navbar__link navbar__link--accent" href="index.html#evaluate">Haz una pausa</a></li>
+        <li><a class="navbar__link navbar__link--account" href="historial.html" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#icon-history"/></svg> Mis resultados</a></li>
+        <li><button class="navbar__logout" type="button" data-logout>Salir (<span data-user-name></span>)</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- US46 (evaluation history) and US45 (delete history and account) -->
+    <section class="history" aria-labelledby="history-title">
+      <div class="container">
+        <header class="history__header">
+          <p class="eyebrow">Mis resultados</p>
+          <h1 class="history__title" id="history-title">Tu historial, <span data-account-name></span>.</h1>
+          <p class="section-lead">Aquí quedan registradas las evaluaciones que hiciste con tu cuenta (<span data-account-email></span>), de la más reciente a la más antigua.</p>
+        </header>
+
+        <ul class="stats" aria-label="Resumen de tus evaluaciones">
+          <li class="stat"><span class="stat__value" data-stat="total">0</span> <span class="stat__label">Evaluaciones</span></li>
+          <li class="stat stat--high"><span class="stat__value" data-stat="high">0</span> <span class="stat__label">Riesgo alto</span></li>
+          <li class="stat stat--medium"><span class="stat__value" data-stat="medium">0</span> <span class="stat__label">Riesgo medio</span></li>
+          <li class="stat stat--low"><span class="stat__value" data-stat="low">0</span> <span class="stat__label">Riesgo bajo</span></li>
+        </ul>
+
+        <div class="history__toolbar">
+          <label class="history__filter">
+            <span class="field__label">Mostrar</span>
+            <select class="field__input" id="history-filter">
+              <option value="all">Todas las evaluaciones</option>
+              <option value="high">Solo riesgo alto</option>
+              <option value="medium">Solo riesgo medio</option>
+              <option value="low">Solo riesgo bajo</option>
+            </select>
+          </label>
+          <a class="button button--primary" href="index.html#eval-start">
+            <svg class="icon" aria-hidden="true"><use href="#icon-pause"/></svg>
+            Hacer otra pausa
+          </a>
+        </div>
+
+        <ol class="history-list" data-history-list aria-label="Evaluaciones guardadas"></ol>
+
+        <div class="history-empty" data-history-empty hidden>
+          <p data-empty-text>Todavía no tienes evaluaciones guardadas.</p>
+          <a class="button button--outline" href="index.html#eval-start">Hacer mi primera pausa</a>
+        </div>
+
+        <noscript>
+          <p class="form-message form-message--error">Para ver tu historial necesitas activar JavaScript en tu navegador.</p>
+        </noscript>
+
+        <div class="account-actions">
+          <p class="notice">
+            <svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg>
+            <span>Tu historial se guarda solo en este navegador. Puedes borrarlo o eliminar tu cuenta cuando quieras (Ley N.° 29733).</span>
+          </p>
+          <button class="button button--danger-outline" type="button" data-clear-history>Borrar todo mi historial</button>
+          <button class="button button--ghost" type="button" data-delete-account>Eliminar mi cuenta</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__bottom">
+      <p>PausaSegura es una herramienta de orientación. No reemplaza la verificación con tu banco, una entidad oficial ni la denuncia ante las autoridades.<br>&copy; 2026 SeguridadTotal · PausaSegura</p>
+      <p class="site-footer__slogan">Más calma. Mejores decisiones.</p>
+    </div>
+  </footer>
+</body>
+</html>
