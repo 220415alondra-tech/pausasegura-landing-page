@@ -20,6 +20,7 @@
 - [ ] HTML validated with the W3C Markup Validation Service
 - [ ] CSS validated with the W3C CSS Validation Service
 - [ ] Responsive checked on mobile, tablet and desktop
-- [ ] No JavaScript added (HTML and CSS only)
+- [ ] JavaScript only in `assets/js/` (vanilla, no libraries) and only for data the page must store; no console errors
 - [ ] Images have `alt`; icon-only controls have `aria-label`
-- [ ] Visual result matches the Figma Style Guide
+- [ ] Visual result matches the Figma Style Guide and the prevention palette
+- [ ] Keyboard navigation works and the focus is visible

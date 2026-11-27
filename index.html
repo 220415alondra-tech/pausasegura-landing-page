@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/account.js" defer></script>
+  <script src="assets/js/evaluation.js" defer></script>
 </head>
 <body>
   <!-- Icon sprite (decorative icons, reused with <use>) -->
@@ -42,11 +44,11 @@
     <symbol id="icon-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></symbol>
   </svg>
 
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
   <!-- US36: reading preferences (CSS only: :has(:checked)) -->
   <input class="a11y-control" type="checkbox" id="large-text">
   <input class="a11y-control" type="checkbox" id="high-contrast">
-
-  <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
   <header class="site-header">
     <div class="a11y-bar" role="group" aria-label="Preferencias de lectura">
@@ -73,12 +75,15 @@
         <span class="navbar__toggle-bar" aria-hidden="true"></span>
       </label>
       <ul class="navbar__menu" id="nav-menu">
-        <li><a class="navbar__link" href="#home">Inicio</a></li>
         <li><a class="navbar__link" href="#how-it-works">Cómo funciona</a></li>
         <li><a class="navbar__link" href="#segments">Para quién</a></li>
         <li><a class="navbar__link" href="#plans">Planes</a></li>
         <li><a class="navbar__link" href="#faq">Preguntas</a></li>
         <li><a class="navbar__link navbar__link--accent" href="#evaluate">Haz una pausa</a></li>
+        <!-- US01, US02, US46: account links, shown by assets/js/account.js -->
+        <li data-auth="guest"><a class="navbar__link navbar__link--account" href="login.html"><svg class="icon" aria-hidden="true"><use href="#icon-user"/></svg> Iniciar sesión</a></li>
+        <li data-auth="user" hidden><a class="navbar__link navbar__link--account" href="historial.html"><svg class="icon" aria-hidden="true"><use href="#icon-history"/></svg> Mis resultados</a></li>
+        <li data-auth="user" hidden><button class="navbar__logout" type="button" data-logout>Salir (<span data-user-name></span>)</button></li>
         <li class="navbar__cta"><a class="button button--primary" href="#download">Descargar app</a></li>
       </ul>
     </nav>
@@ -96,11 +101,11 @@
           <h1 class="hero__title" id="home-title">Detente.<br>Verifica.<br>Decide.</h1>
           <p class="hero__lead">Evita fraudes y estafas en segundos evaluando mensajes o llamadas sospechosas antes de responder.</p>
           <div class="hero__actions">
-            <a class="button button--primary button--large" href="#download">
+            <a class="button button--light button--large" href="#download">
               <svg class="icon" aria-hidden="true"><use href="#icon-download"/></svg>
               Descargar app
             </a>
-            <a class="button button--outline button--large" href="#evaluate">
+            <a class="button button--outline-light button--large" href="#evaluate">
               <svg class="icon" aria-hidden="true"><use href="#icon-play"/></svg>
               Probar una pausa
             </a>
@@ -236,7 +241,7 @@
         <header class="section-header section-header--center">
           <p class="eyebrow">Haz una pausa ahora</p>
           <h2 class="section-title" id="evaluate-title">Evalúa un mensaje o llamada de ejemplo.</h2>
-          <p class="section-lead">Esta es una simulación de la app: responde con calma y mira qué nivel de riesgo obtendrías. No se guarda ni se envía nada.</p>
+          <p class="section-lead">Esta es una simulación de la app: responde con calma y mira qué nivel de riesgo obtendrías. Si <a href="login.html?next=index.html%23evaluate">inicias sesión</a>, tu resultado se guarda en tu historial para que lo revises después.</p>
         </header>
 
         <form class="evaluation" aria-label="Evaluación guiada de ejemplo">
@@ -419,6 +424,9 @@
           <div class="evaluation__step evaluation__step--result" id="eval-result" aria-live="polite">
             <p class="evaluation__progress"><span>Resultado de la evaluación</span></p>
 
+            <!-- v1.1.0: filled by assets/js/evaluation.js when the result is saved -->
+            <p class="result__saved" data-save-status role="status" hidden></p>
+
             <!-- US21, US22, US25: one of the three levels is shown -->
             <div class="result result--high">
               <div class="result__header" role="alert">
@@ -517,8 +525,8 @@
                 <label class="decision__option"><input type="radio" name="decision" id="dec-info"> <svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg> Pedir más información</label>
                 <label class="decision__option"><input type="radio" name="decision" id="dec-continue"> <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Continuar con cautela</label>
               </div>
-              <p class="snackbar snackbar--block" role="status">Contacto bloqueado (simulación). En la app también se guardaría en tu historial.</p>
-              <p class="snackbar snackbar--mark" role="status">Guardado en tu historial como sospechoso (simulación).</p>
+              <p class="snackbar snackbar--block" role="status">Contacto bloqueado (simulación). Si iniciaste sesión, tu decisión queda en tu historial.</p>
+              <p class="snackbar snackbar--mark" role="status">Marcado como sospechoso (simulación). Si iniciaste sesión, queda en tu historial.</p>
               <p class="snackbar snackbar--info" role="status">Buena idea: usa las preguntas sugeridas y no compartas datos mientras tanto.</p>
               <p class="snackbar snackbar--continue" role="status">De acuerdo. Si te piden un pago o datos, vuelve a hacer una pausa.</p>
             </div>
@@ -737,6 +745,10 @@
             <p>Gratis incluye evaluaciones básicas. Premium ofrece evaluaciones ilimitadas e historial ampliado por S/ 5 mensuales o S/ 40 al año.</p>
           </details>
           <details class="faq">
+            <summary>¿Dónde se guardan mis resultados?</summary>
+            <p>Si creas una cuenta e inicias sesión, cada evaluación se guarda en “Mis resultados” con la fecha, el nivel de riesgo, las señales detectadas y tu decisión. En esta versión de demostración tu cuenta y tu historial se guardan solo en este navegador y puedes borrarlos cuando quieras.</p>
+          </details>
+          <details class="faq">
             <summary>¿Qué hago si ya compartí datos o envié dinero?</summary>
             <p>Contacta cuanto antes a tu banco o a la entidad involucrada por un canal oficial. Cambia las claves afectadas y conserva los mensajes o comprobantes para reportar lo ocurrido.</p>
           </details>
@@ -809,8 +821,10 @@
         <summary>Política de privacidad</summary>
         <ul>
           <li>PausaSegura nunca te pedirá contraseñas bancarias ni códigos de verificación.</li>
-          <li>Solo guardamos lo necesario de cada evaluación: el tipo de comunicación, el nivel de riesgo y la fecha.</li>
-          <li>Puedes eliminar tu historial o tu cuenta cuando quieras.</li>
+          <li>Para tu cuenta solo pedimos tu nombre, tu correo y una contraseña, que se guarda cifrada (nunca en texto plano).</li>
+          <li>Solo guardamos lo necesario de cada evaluación: la fecha, el canal, el nivel de riesgo, las señales detectadas y tu decisión.</li>
+          <li>En esta versión de demostración, tu cuenta y tu historial se guardan solo en este navegador y no se envían a ningún servidor.</li>
+          <li>Puedes eliminar tu historial o tu cuenta cuando quieras desde “Mis resultados”.</li>
           <li>Tratamos tus datos según la Ley N.° 29733, Ley de Protección de Datos Personales del Perú.</li>
         </ul>
       </details>
