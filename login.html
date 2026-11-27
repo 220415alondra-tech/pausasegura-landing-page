@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Inicia sesión o crea tu cuenta en PausaSegura para guardar los resultados de tus evaluaciones.">
+  <title>Iniciar sesión | PausaSegura</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Nunito:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/account.js" defer></script>
+  <script src="assets/js/login.js" defer></script>
+</head>
+<body>
+  <!-- Icon sprite (decorative icons, reused with <use>) -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+    <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="icon-history" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4.5v4h4"/><path d="M12 8v4.5l3 2"/></symbol>
+    <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c.7-4 3.7-6 7.5-6s6.8 2 7.5 6"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></symbol>
+    <symbol id="icon-text-size" viewBox="0 0 24 24"><path d="M3 18L8 6l5 12"/><path d="M4.8 14h6.4"/><path d="M14 18l3.5-8.5L21 18"/><path d="M15.2 15.2h4.6"/></symbol>
+    <symbol id="icon-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <!-- US36: reading preferences (CSS only: :has(:checked)) -->
+  <input class="a11y-control" type="checkbox" id="large-text">
+  <input class="a11y-control" type="checkbox" id="high-contrast">
+
+  <header class="site-header">
+    <div class="a11y-bar" role="group" aria-label="Preferencias de lectura">
+      <div class="container a11y-bar__inner">
+        <span class="a11y-bar__title">Lectura cómoda:</span>
+        <label class="a11y-bar__option" for="large-text">
+          <svg class="icon" aria-hidden="true"><use href="#icon-text-size"/></svg>
+          Letra grande
+        </label>
+        <label class="a11y-bar__option" for="high-contrast">
+          <svg class="icon" aria-hidden="true"><use href="#icon-contrast"/></svg>
+          Alto contraste
+        </label>
+      </div>
+    </div>
+
+    <nav class="navbar container" aria-label="Navegación principal">
+      <a class="brand" href="index.html" aria-label="PausaSegura, ir al inicio">
+        <span class="brand__mark" aria-hidden="true"><svg class="icon"><use href="#icon-shield"/></svg></span>
+        <span class="brand__name">PausaSegura</span>
+      </a>
+      <input class="navbar__toggle" type="checkbox" id="menu-toggle" aria-label="Abrir o cerrar menú">
+      <label class="navbar__toggle-label" for="menu-toggle">
+        <span class="navbar__toggle-bar" aria-hidden="true"></span>
+      </label>
+      <ul class="navbar__menu" id="nav-menu">
+        <li><a class="navbar__link" href="index.html">Inicio</a></li>
+        <li><a class="navbar__link navbar__link--accent" href="index.html#evaluate">Haz una pausa</a></li>
+        <li data-auth="user" hidden><a class="navbar__link navbar__link--account" href="historial.html"><svg class="icon" aria-hidden="true"><use href="#icon-history"/></svg> Mis resultados</a></li>
+        <li data-auth="user" hidden><button class="navbar__logout" type="button" data-logout>Salir (<span data-user-name></span>)</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- US01 (register) and US02 (sign in) -->
+    <section class="auth" aria-labelledby="auth-title">
+      <div class="container auth__inner">
+        <div class="auth__intro">
+          <p class="eyebrow eyebrow--light">Tu cuenta PausaSegura</p>
+          <h1 class="auth__title" id="auth-title">Guarda cada pausa que haces.</h1>
+          <p class="auth__lead">Con tu cuenta, los resultados de tus evaluaciones quedan registrados para que los revises cuando quieras.</p>
+          <ul class="auth__benefits">
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Guarda el resultado de las 8 preguntas.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Revisa tu historial y tus decisiones.</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg> Te recordamos si eliges “Recordarme”.</li>
+          </ul>
+          <p class="notice">
+            <svg class="icon" aria-hidden="true"><use href="#icon-lock"/></svg>
+            <span>Versión de demostración: tu cuenta y tu historial se guardan solo en este navegador. No uses la contraseña de tu banco ni de tu correo.</span>
+          </p>
+        </div>
+
+        <div class="auth-card">
+          <!-- Shown by assets/js/login.js when there is an active session -->
+          <div class="auth-signed" data-signed-in hidden>
+            <h2 class="auth-panel__title">Ya iniciaste sesión</h2>
+            <p>Hola, <strong data-signed-name></strong> (<span data-signed-email></span>).</p>
+            <a class="button button--primary" href="historial.html">Ver mis resultados</a>
+            <a class="button button--outline" href="index.html#evaluate">Hacer una pausa</a>
+            <button class="button button--ghost" type="button" data-logout>Cerrar sesión</button>
+          </div>
+
+          <div data-auth-forms>
+            <ul class="auth-tabs">
+              <li><a class="auth-tabs__link auth-tabs__link--login" href="#login">Iniciar sesión</a></li>
+              <li><a class="auth-tabs__link auth-tabs__link--register" href="#register">Crear cuenta</a></li>
+            </ul>
+
+            <!-- Sign in -->
+            <form class="auth-panel auth-panel--login" id="login" action="login.html" method="post" aria-labelledby="login-title" novalidate>
+              <h2 class="auth-panel__title" id="login-title">Inicia sesión</h2>
+              <p class="form-message form-message--error" data-form-message role="alert" hidden></p>
+              <label class="field">
+                <span class="field__label">Correo electrónico</span>
+                <input class="field__input" type="email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+                <span class="field__error">Escribe un correo válido, por ejemplo nombre@correo.com.</span>
+              </label>
+              <label class="field">
+                <span class="field__label">Contraseña</span>
+                <input class="field__input" type="password" name="password" required autocomplete="current-password">
+                <span class="field__error">Escribe tu contraseña.</span>
+              </label>
+              <label class="field--check">
+                <input type="checkbox" name="remember">
+                <span>Recordarme en este dispositivo</span>
+              </label>
+              <button class="button button--primary button--large" type="submit">Iniciar sesión</button>
+              <p class="auth-panel__switch">¿No tienes cuenta? <a href="#register">Crea una gratis</a></p>
+            </form>
+
+            <!-- Register -->
+            <form class="auth-panel auth-panel--register" id="register" action="login.html" method="post" aria-labelledby="register-title" novalidate>
+              <h2 class="auth-panel__title" id="register-title">Crea tu cuenta</h2>
+              <p class="form-message form-message--error" data-form-message role="alert" hidden></p>
+              <label class="field">
+                <span class="field__label">Nombre</span>
+                <input class="field__input" type="text" name="name" required minlength="2" maxlength="60" autocomplete="given-name" placeholder="Tu nombre">
+                <span class="field__error">Escribe tu nombre.</span>
+              </label>
+              <label class="field">
+                <span class="field__label">Correo electrónico</span>
+                <input class="field__input" type="email" name="email" required autocomplete="email" placeholder="tucorreo@ejemplo.com">
+                <span class="field__error">Escribe un correo válido, por ejemplo nombre@correo.com.</span>
+              </label>
+              <label class="field">
+                <span class="field__label">Contraseña</span>
+                <input class="field__input" type="password" name="password" required minlength="8" autocomplete="new-password" aria-describedby="password-hint">
+                <span class="field__error">Usa al menos 8 caracteres, con letras y números.</span>
+                <span class="field__hint" id="password-hint">Al menos 8 caracteres, con letras y números.</span>
+              </label>
+              <label class="field">
+                <span class="field__label">Repite la contraseña</span>
+                <input class="field__input" type="password" name="password-confirm" required autocomplete="new-password">
+                <span class="field__error">Las contraseñas no coinciden.</span>
+              </label>
+              <label class="field--check">
+                <input type="checkbox" name="remember" checked>
+                <span>Recordarme en este dispositivo</span>
+              </label>
+              <label class="field--check">
+                <input type="checkbox" name="privacy" required>
+                <span>Acepto la <a href="index.html#privacy">política de privacidad</a> (Ley N.° 29733).</span>
+              </label>
+              <button class="button button--primary button--large" type="submit">Crear cuenta</button>
+              <p class="auth-panel__switch">¿Ya tienes cuenta? <a href="#login">Inicia sesión</a></p>
+            </form>
+          </div>
+
+          <noscript>
+            <p class="form-message form-message--error">Para iniciar sesión y guardar tus resultados necesitas activar JavaScript en tu navegador.</p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__bottom">
+      <p>PausaSegura es una herramienta de orientación. No reemplaza la verificación con tu banco, una entidad oficial ni la denuncia ante las autoridades.<br>&copy; 2026 SeguridadTotal · PausaSegura</p>
+      <p class="site-footer__slogan">Más calma. Mejores decisiones.</p>
+    </div>
+  </footer>
+</body>
+</html>
